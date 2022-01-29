@@ -1,47 +1,53 @@
 const fs = require('fs')
-const client = require('discord-rich-presence')('936296341250904065')
+const client = require('discord-rich-presence')
 const { spawnSync, spawn, execSync, exec } = require('child_process')
 var StringDecoder = require('string_decoder').StringDecoder
 const { stdout, mainModule } = require('process')
 
-let currentProject
-let pastProject = ""
+let currentProject = "lorem Ipsum"
+let pastProject = "."
 let cmd = 'tasklist /fi "imagename eq Cinema 4D.exe" /fo list /v'
 //Loads DRC settings
 let DRCSettings = JSON.parse(fs.readFileSync("DRCSettings.json"))
+
+let currentClient
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-function isCinemaOpen() {
+function getCinemaProcessInfo() {
     return new Promise((resolve) => {
         exec(cmd, (err, stdout, stderr) => {
-            if (err || stderr) {
-                resolve("true")
-                return
-            }
-            if (stdout.includes("No tasks")) {
-                resolve("false")
-                return
-            }
-            if (stdout.includes("Cinema 4D")) {
-                //if window title is the actual project title(hover tooltips change window title to tooltip),
-                //resolves to Project file name from Process dump from.bat file
-                resolve(stdout)
-                return
-            }
-            else {
-                resolve("true")
-                return
-            }
+            resolve(stdout)
         })
     })
 }
 
+function updateOpenProjectName(str) {
+    if (str.includes("No tasks")) {
+        currentProject = false
+        return
+    }
+    str = str.split("Window Title:")
+    if (str[1].includes("Cinema 4D")) {
+        str = str[1].split("[")
+        str = str[1].split("]")
+        if (str[0].includes("*")) {
+            str = str[0].substring(0, str[0].length - 2)
+            console.log(str)
+            currentProject = str.toString()
+        }
+        else {
+            console.log(str[0])
+            currentProject = str[0].toString()
+        }
+    }
+}
+
 function setDRCProject() {
     //update current presence settings
-    if (currentProject !== pastProject) {
-        client.updatePresence({
+    if (currentProject != pastProject) {
+        currentClient.updatePresence({
             state: `Porfolio: ${DRCSettings.portfolio_website}`,
             details: `Working on ${currentProject}`,
             startTimestamp: Date.now(),
@@ -54,26 +60,22 @@ function setDRCProject() {
 }
 
 async function main() {
-    let str
     while (true) {
-        str = await isCinemaOpen()
-        console.log(str)
-        if (str == "false") {
-            break
-        }
-        else if (str == "true") {
+        updateOpenProjectName(await getCinemaProcessInfo())
+        //stops DRC when broken
+        if (currentProject == false) {
+            if (currentClient) {
+                await currentClient.disconnect()
+            }
+            await sleep(20000)
+            continue
+        } else {
+            if (!currentClient) {
+                currentClient = client("936296341250904065")
+            }
             setDRCProject()
-            await sleep(DRCSettings.scan_refresh_rate)
         }
-        else {
-            //gets project file name
-            str = str.split("\n")
-            str = str[9].split("[")
-            str = str[1].split("]")
-            currentProject = str[0].toString()
-            setDRCProject()
-            await sleep(DRCSettings.scan_refresh_rate)
-        }
+        await sleep(DRCSettings.scan_refresh_rate)
     }
 }
 
