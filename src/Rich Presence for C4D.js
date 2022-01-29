@@ -6,11 +6,15 @@ const { stdout, mainModule } = require('process')
 
 let currentProject = "lorem Ipsum"
 let pastProject = "."
+
+//Command used to scan for C4D process
 let cmd = 'tasklist /fi "imagename eq Cinema 4D.exe" /fo list /v'
 //Loads DRC settings
 let DRCSettings = JSON.parse(fs.readFileSync("DRCSettings.json"))
 
+let clientIsConnected = false
 let currentClient
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -46,6 +50,16 @@ function updateOpenProjectName(str) {
 
 function setDRCProject() {
     //update current presence settings
+    //reconnects the client if isnt connected
+    if (!clientIsConnected) {
+        currentClient = client("936296341250904065")
+        currentClient.on("error", (err) => {
+            console.log("err")
+        })
+        clientIsConnected = true
+        console.log("starting client")
+        currentProject = "0"
+    }
     if (currentProject != pastProject) {
         currentClient.updatePresence({
             state: `Porfolio: ${DRCSettings.portfolio_website}`,
@@ -54,28 +68,31 @@ function setDRCProject() {
             largeImageKey: 'c4d',
             instance: true,
         })
+        console.log("updating client")
     }
     pastProject = currentProject
 
 }
+//catches the error
 
 async function main() {
     while (true) {
         updateOpenProjectName(await getCinemaProcessInfo())
         //stops DRC when broken
         if (currentProject == false) {
-            if (currentClient) {
+            if (clientIsConnected) {
                 await currentClient.disconnect()
+                clientIsConnected = false
+                console.log("disconnecting client...")
             }
-            await sleep(20000)
+            await sleep(DRCSettings.scan_refresh_rate * 10)
             continue
+
         } else {
-            if (!currentClient) {
-                currentClient = client("936296341250904065")
-            }
             setDRCProject()
         }
         await sleep(DRCSettings.scan_refresh_rate)
+
     }
 }
 
