@@ -3,3 +3,5 @@ node_modules
 null
 temp.txt
 C4DRichPresence.bat
+build/DRCSettings.json
+src/DRCSettings.json

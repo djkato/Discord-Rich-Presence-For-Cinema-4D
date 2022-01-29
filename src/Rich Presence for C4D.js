@@ -10,7 +10,14 @@ let pastProject = "."
 //Command used to scan for C4D process
 let cmd = 'tasklist /fi "imagename eq Cinema 4D.exe" /fo list /v'
 //Loads DRC settings
-let DRCSettings = JSON.parse(fs.readFileSync("DRCSettings.json"))
+let DRCSettings
+try {
+    DRCSettings = JSON.parse(fs.readFileSync("DRCSettings.json"))
+
+} catch (err) {
+    DRCSettings = { "portfolio_website": "djkato.net", "scan_refresh_rate": 1000 }
+    fs.writeFileSync("DRCSettings.json", JSON.stringify(DRCSettings))
+}
 
 let clientIsConnected = false
 let currentClient
@@ -38,11 +45,11 @@ function updateOpenProjectName(str) {
         str = str[1].split("]")
         if (str[0].includes("*")) {
             str = str[0].substring(0, str[0].length - 2)
-            console.log(str)
+            //console.log(str)
             currentProject = str.toString()
         }
         else {
-            console.log(str[0])
+            //console.log(str[0])
             currentProject = str[0].toString()
         }
     }
@@ -54,10 +61,10 @@ function setDRCProject() {
     if (!clientIsConnected) {
         currentClient = client("936296341250904065")
         currentClient.on("error", (err) => {
-            console.log("err")
+            //console.log("err")
         })
         clientIsConnected = true
-        console.log("starting client")
+        //console.log("starting client")
         currentProject = "0"
     }
     if (currentProject != pastProject) {
@@ -68,7 +75,7 @@ function setDRCProject() {
             largeImageKey: 'c4d',
             instance: true,
         })
-        console.log("updating client")
+        //console.log("updating client")
     }
     pastProject = currentProject
 
@@ -83,7 +90,7 @@ async function main() {
             if (clientIsConnected) {
                 await currentClient.disconnect()
                 clientIsConnected = false
-                console.log("disconnecting client...")
+                //console.log("disconnecting client...")
             }
             await sleep(DRCSettings.scan_refresh_rate * 10)
             continue
