@@ -1,0 +1,32 @@
+{
+  "name": "discord-rich-presence-for-cinema-4d",
+  "version": "1.0.0",
+  "description": "A simple node project to show your friends on discord what you're working on in Cinema 4D! Bit hacky but it works x)",
+  "main": "Rich Presence for C4D.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djkato/Discord-Rich-Presence-For-Cinema-4D.git"
+  },
+  "keywords": [
+    "Cinema",
+    "4D",
+    "Maxon",
+    "Discord",
+    "Discord",
+    "RPC",
+    "Rich",
+    "presence"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djkato/Discord-Rich-Presence-For-Cinema-4D/issues"
+  },
+  "homepage": "https://github.com/djkato/Discord-Rich-Presence-For-Cinema-4D#readme",
+  "dependencies": {
+    "discord-rich-presence": "0.0.8"
+  }
+}
