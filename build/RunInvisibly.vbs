@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "discord-rich-presence-for-cinema-4d-win.exe", 0

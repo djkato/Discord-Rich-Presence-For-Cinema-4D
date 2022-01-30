@@ -7,13 +7,11 @@ How it works:
 
 How to use:
     
--Download the exe from Releases here:https://github.com/djkato/Discord-Rich-Presence-for-Cinema-4D/releases/tag/v1.0.1
+-Download the release zip from Releases here:https://github.com/djkato/Discord-Rich-Presence-for-Cinema-4D/releases/tag/v1.0.2
 
--Create a shortcut, then on the shortcut Rightclick > Properties > `Run: Minimzed` so it doesn't open windowed on each startup
+-run the EXE file once, then close. It generates a `DRCSettings.json`. Change what porfolio website should be displayed there.
 
--do `[WINDOWS BUTTON+R]`, then type `shell:StartUp`, and put the exe there so it automatically starts with pc
-
--run once, then close. It generates a `DRCSettings.json`. Change what porfolio website should be displayed there.
+-do `[WINDOWS BUTTON+R]`, then type `shell:StartUp`, take the shortcut link "PUT IN STARTUP -.." and put it there there so it automatically starts with pc
 
 enjoy~
 Dj
