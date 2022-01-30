@@ -13,5 +13,6 @@ How to use:
 
 -do `[WINDOWS BUTTON+R]`, then type `shell:StartUp`, take the shortcut link "PUT IN STARTUP -.." and put it there there so it automatically starts with pc
 
+ps: If you want to close the app from running in background, open task manager, go to `details` tab, find `node.exe` process(should be using around 20mb of ram), and end task. 
 enjoy~
 Dj
