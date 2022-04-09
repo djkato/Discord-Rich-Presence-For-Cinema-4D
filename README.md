@@ -7,7 +7,7 @@ How it works:
 
 How to use:
     
--Download the release zip from Releases here:https://github.com/djkato/Discord-Rich-Presence-for-Cinema-4D/releases/tag/v1.0.2
+-Download the release zip from Releases here:https://github.com/djkato/Discord-Rich-Presence-for-Cinema-4D/releases/tag/v1.0.21
 
 -run the EXE file once, then close. It generates a `DRCSettings.json`. Change what porfolio website should be displayed there.
 
