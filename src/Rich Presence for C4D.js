@@ -35,6 +35,7 @@ function getCinemaProcessInfo() {
 }
 
 function updateOpenProjectName(str) {
+    //if project file found sets current project to name, else currentProject = false
     if (str.includes("No tasks")) {
         currentProject = false
         return
@@ -42,6 +43,8 @@ function updateOpenProjectName(str) {
     str = str.split("Window Title:")
     if (str[1].includes("Cinema 4D")) {
         str = str[1].split("[")
+        //If for some reason the name isnt right?
+        if (!str[1]) return
         str = str[1].split("]")
         if (str[0].includes("*")) {
             str = str[0].substring(0, str[0].length - 2)
@@ -60,13 +63,23 @@ function setDRCProject() {
     //reconnects the client if isnt connected
     if (!clientIsConnected) {
         currentClient = client("936296341250904065")
-        currentClient.on("error", (err) => {
-            //console.log("err")
-        })
+
         clientIsConnected = true
         //console.log("starting client")
         currentProject = "0"
     }
+
+    currentClient.on("error", (err) => {
+        //if errored and shouldnt have, reconnect
+        if (clientIsConnected && currentProject) {
+            currentClient = client("936296341250904065")
+            console.log("errored and reconnecting")
+        } else {
+            clientIsConnected = false, currentProject = false
+            console.log("errored and keeping off")
+        }
+    })
+
     if (currentProject != pastProject) {
         currentClient.updatePresence({
             state: `Porfolio: ${DRCSettings.portfolio_website}`,
@@ -85,7 +98,7 @@ function setDRCProject() {
 async function main() {
     while (true) {
         updateOpenProjectName(await getCinemaProcessInfo())
-        //stops DRC when broken
+        //stops DRC when no project detected
         if (currentProject == false) {
             if (clientIsConnected) {
                 await currentClient.disconnect()

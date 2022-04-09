@@ -1,0 +1,12 @@
+
+(node:25384) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added to [RP]. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+C:\Users\djkato\Documents\Discord Rich Presence for Cinema 4D\src\Rich Presence for C4D.js:46
+        str = str[1].split("]")
+                     ^
+
+TypeError: Cannot read properties of undefined (reading 'split')
+    at updateOpenProjectName (C:\Users\djkato\Documents\Discord Rich Presence for Cinema 4D\src\Rich Presence for C4D.js:46:22)    
+    at main (C:\Users\djkato\Documents\Discord Rich Presence for Cinema 4D\src\Rich Presence for C4D.js:98:9)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)

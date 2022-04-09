@@ -1,6 +1,6 @@
 {
   "name": "discord-rich-presence-for-cinema-4d",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple node project to show your friends on discord what you're working on in Cinema 4D! Bit hacky but it works x)",
   "bin": "./src/Rich Presence for C4D.js",
   "main": "./src/Rich Presence for C4D.js",
