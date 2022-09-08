@@ -1,3 +1,5 @@
+#THIS VERSION HAS BEEN ABANDONED, I REWROTE THE WHOLE APP IN RUST, GET HERE: [https://github.com/djkato/DRP_Creative](https://github.com/djkato/DRP_Creative)
+
 # Discord-Rich-Presence-For-Cinema-4D
 A hacky way of allowing all your discord friends to know what your'e working on in Cinema 4D!
 
